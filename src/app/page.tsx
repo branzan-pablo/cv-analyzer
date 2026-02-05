@@ -76,180 +76,147 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900">
-      {/* Background effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/30 rounded-full blur-[100px]" />
-        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-pink-500/20 rounded-full blur-[100px]" />
-        <div className="absolute -bottom-40 right-1/3 w-80 h-80 bg-blue-500/20 rounded-full blur-[100px]" />
-      </div>
-
-      <main className="relative z-10">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      <main className="max-w-7xl mx-auto px-6 py-8">
         {/* Header */}
-        <header className="border-b border-white/10 backdrop-blur-sm">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">CV</span>
-              </div>
-              <span className="text-xl font-bold text-white">CV Analyzer</span>
+        <header className="flex items-center justify-between mb-16 md:mb-16">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center">
+              <span className="text-white font-serif font-bold text-lg">CV</span>
             </div>
-            <a
-              href="#como-funciona"
-              className="text-gray-400 hover:text-white transition-colors text-sm"
-            >
+            <span className="text-xl font-bold font-serif text-gray-900">CV Analyzer</span>
+          </div>
+          {/* <nav>
+            <a href="#como-funciona" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Como funciona
             </a>
-          </div>
+          </nav> */}
         </header>
 
         {result ? (
           /* Results View */
-          <section className="max-w-4xl mx-auto px-4 py-12">
+          <section className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
             <AnalysisResult result={result} onNewAnalysis={handleNewAnalysis} />
           </section>
         ) : (
-          <>
-            {/* Hero Section */}
-            <section className="max-w-4xl mx-auto px-4 pt-16 pb-8 text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm mb-6">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-                </span>
-                Powered by Google Gemini AI
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Destaque seu currículo nos{' '}
-                <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  processos seletivos
-                </span>
+          /* Hero Section */
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column: Copy */}
+            <div className="space-y-8 max-w-2xl">
+              <h1 className="text-5xl md:text-6xl font-serif font-bold leading-[1.1] tracking-tight text-gray-900">
+                Destaque seu currículo nos <br />
+                <span className="text-gray-500">processos seletivos</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+
+              <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-lg">
                 Descubra como recrutadores e sistemas ATS avaliam seu currículo.
-                Receba sugestões práticas para aumentar suas chances de entrevista.
+                Receba sugestões práticas para aumentar suas chances.
               </p>
-            </section>
 
-            {/* Upload Section */}
-            <section className="max-w-2xl mx-auto px-4 pb-8">
-              <FileUpload onFileSelect={handleFileSelect} isLoading={isLoading} />
+              {/* Steps Pills */}
+              <div className="flex flex-wrap items-center gap-3 text-sm font-medium text-gray-700">
+                <div className="px-4 py-2 rounded-full bg-gray-100 border border-gray-200">
+                  1. Envie
+                </div>
+                <span className="text-gray-300">›</span>
+                <div className="px-4 py-2 rounded-full bg-gray-100 border border-gray-200">
+                  2. Analise
+                </div>
+                <span className="text-gray-300">›</span>
+                <div className="px-4 py-2 rounded-full bg-gray-100 border border-gray-200">
+                  3. Melhore
+                </div>
+              </div>
 
-              {/* Job Description Input */}
-              <div className="mt-6">
-                <label className="block text-sm font-medium text-gray-400 mb-2">
-                  Descrição da vaga (opcional)
-                </label>
-                <textarea
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                  placeholder="Cole aqui a descrição da vaga para uma análise mais direcionada..."
-                  className="w-full h-32 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 resize-none transition-all"
-                  disabled={isLoading}
-                />
-                <p className="mt-2 text-xs text-gray-500">
-                  Com a descrição da vaga, suas sugestões serão direcionadas aos requisitos específicos da posição.
+              {/* Features List */}
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-green-600">✓</div>
+                  Otimização ATS com IA
+                </div>
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-green-600">✓</div>
+                  Análise em 5 dimensões
+                </div>
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-green-600">✓</div>
+                  Sugestões personalizadas
+                </div>
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-green-600">✓</div>
+                  Feedback instantâneo
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Upload Card */}
+            <div className="relative">
+              <div className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Análise Gratuita</h3>
+                  <p className="text-gray-500 text-sm">Faça upload do seu CV para começar.</p>
+                </div>
+
+                <FileUpload onFileSelect={handleFileSelect} isLoading={isLoading} />
+
+                {/* Job Description Input */}
+                <div className="mt-6 space-y-3">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Descrição da vaga (opcional)
+                  </label>
+                  <textarea
+                    value={jobDescription}
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    placeholder="Cole a descrição da vaga..."
+                    className="w-full h-24 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:ring-0 resize-none transition-all text-sm"
+                    disabled={isLoading}
+                  />
+                </div>
+
+                {/* Error Message */}
+                {error && (
+                  <div className={`mt-4 p-3 rounded-lg text-sm border ${limitReached
+                    ? 'bg-yellow-50 border-yellow-200 text-yellow-700'
+                    : 'bg-red-50 border-red-200 text-red-600'
+                    }`}>
+                    {error}
+                  </div>
+                )}
+
+                {/* Analyze Button */}
+                <button
+                  onClick={handleAnalyze}
+                  disabled={!file || isLoading}
+                  className={`
+                    w-full mt-6 py-4 px-6 rounded-xl font-bold text-base
+                    transition-all duration-300 flex items-center justify-center gap-2
+                    ${file && !isLoading
+                      ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg shadow-gray-200'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    }
+                  `}
+                >
+                  {isLoading ? (
+                    'Analisando...'
+                  ) : (
+                    <>
+                      Analisar Currículo
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </>
+                  )}
+                </button>
+
+                <p className="text-center text-xs text-gray-400 mt-4">
+                  1 análise gratuita por usuário
                 </p>
               </div>
 
-              {/* Error Message */}
-              {error && (
-                <div className={`mt-4 p-4 rounded-xl border ${limitReached
-                    ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400'
-                    : 'bg-red-500/10 border-red-500/30 text-red-400'
-                  }`}>
-                  <p>{error}</p>
-                  {limitReached && (
-                    <p className="mt-2 text-sm">
-                      Entre em contato para adquirir mais análises.
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/* Analyze Button */}
-              <button
-                onClick={handleAnalyze}
-                disabled={!file || isLoading}
-                className={`
-                  w-full mt-6 py-4 px-6 rounded-xl font-semibold text-lg
-                  transition-all duration-300 flex items-center justify-center gap-3
-                  ${file && !isLoading
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg shadow-purple-500/25'
-                    : 'bg-white/10 text-gray-500 cursor-not-allowed'
-                  }
-                `}
-              >
-                {isLoading ? (
-                  <>
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Analisando...
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                    </svg>
-                    Analisar Currículo
-                  </>
-                )}
-              </button>
-
-              <p className="text-center text-sm text-gray-500 mt-4">
-                🎁 1 análise gratuita por usuário
-              </p>
-            </section>
-
-            {/* How it works */}
-            <section id="como-funciona" className="max-w-4xl mx-auto px-4 py-16">
-              <h2 className="text-2xl font-bold text-white text-center mb-12">Como funciona</h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {[
-                  {
-                    step: '1',
-                    title: 'Envie seu currículo',
-                    description: 'Faça upload do seu CV em PDF, DOCX ou TXT.',
-                    icon: '📄',
-                  },
-                  {
-                    step: '2',
-                    title: 'IA analisa',
-                    description: 'Nossa IA avalia seu currículo em 5 dimensões.',
-                    icon: '🤖',
-                  },
-                  {
-                    step: '3',
-                    title: 'Receba feedback',
-                    description: 'Veja sua pontuação e sugestões de melhoria.',
-                    icon: '✨',
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-purple-500/30 transition-all"
-                  >
-                    <div className="absolute -top-4 left-6 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">
-                      {item.step}
-                    </div>
-                    <div className="text-4xl mb-4 mt-2">{item.icon}</div>
-                    <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
-                    <p className="text-gray-400 text-sm">{item.description}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </>
-        )}
-
-        {/* Footer */}
-        <footer className="border-t border-white/10 mt-16">
-          <div className="max-w-6xl mx-auto px-4 py-8 text-center text-gray-500 text-sm">
-            <p>© {new Date().getFullYear()} CV Analyzer. Powered by Google Gemini AI.</p>
+              {/* Decorative elements behind card */}
+              <div className="absolute -top-12 -right-12 w-64 h-64 bg-gray-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -z-10 animate-blob"></div>
+              <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-gray-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -z-10 animate-blob animation-delay-2000"></div>
+            </div>
           </div>
-        </footer>
+        )}
       </main>
     </div>
   );

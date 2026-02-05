@@ -39,57 +39,50 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
         <div
             {...getRootProps()}
             className={`
-        relative overflow-hidden rounded-2xl border-2 border-dashed p-8 md:p-12 text-center cursor-pointer
+        relative overflow-hidden rounded-2xl border-2 border-dashed p-8 text-center cursor-pointer
         transition-all duration-300 ease-out
         ${isDragActive
-                    ? 'border-purple-500 bg-purple-500/10 scale-[1.02]'
-                    : 'border-white/20 bg-white/5 hover:border-purple-400/50 hover:bg-white/10'
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200 bg-gray-50 hover:border-gray-300 hover:bg-gray-100'
                 }
         ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
       `}
         >
             <input {...getInputProps()} />
 
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 pointer-events-none" />
-
             <div className="relative z-10">
                 {/* Icon */}
-                <div className="mx-auto w-16 h-16 mb-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                    <svg
-                        className="w-8 h-8 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                        />
-                    </svg>
+                <div className={`mx-auto w-12 h-12 mb-4 rounded-full flex items-center justify-center transition-colors ${selectedFile ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-500'}`}>
+                    {selectedFile ? (
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                    ) : (
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                    )}
                 </div>
 
                 {selectedFile ? (
-                    <div className="space-y-2">
-                        <p className="text-lg font-medium text-white">
+                    <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-900">
                             {selectedFile.name}
                         </p>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-xs text-gray-500">
                             {(selectedFile.size / 1024).toFixed(1)} KB
                         </p>
-                        <p className="text-sm text-purple-400">
-                            Clique ou arraste para trocar
+                        <p className="text-xs text-blue-500 mt-2">
+                            Clique para trocar
                         </p>
                     </div>
                 ) : (
-                    <div className="space-y-2">
-                        <p className="text-lg font-medium text-white">
-                            {isDragActive ? 'Solte o arquivo aqui' : 'Arraste seu currículo ou clique para selecionar'}
+                    <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-900">
+                            {isDragActive ? 'Solte o arquivo aqui' : 'Arraste seu PDF, DOCX ou TXT'}
                         </p>
-                        <p className="text-sm text-gray-400">
-                            PDF, DOCX ou TXT • Máximo 5MB
+                        <p className="text-xs text-gray-500">
+                            ou clique para selecionar
                         </p>
                     </div>
                 )}

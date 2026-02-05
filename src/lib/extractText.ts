@@ -1,35 +1,17 @@
+import './pdf-polyfills';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const mammoth = require('mammoth');
 
+// @ts-ignore
+import pdf from 'pdf-parse';
+
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  // Dynamic import to avoid build issues
-  const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
-
   try {
-    const uint8Array = new Uint8Array(buffer);
-    const loadingTask = pdfjsLib.getDocument({
-      data: uint8Array,
-      useWorkerFetch: false,
-      isEvalSupported: false,
-      useSystemFonts: true,
-    });
-    const pdf = await loadingTask.promise;
-
-    let text = '';
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      const pageText = (content.items as Array<{ str?: string }>)
-        .filter((item) => item.str)
-        .map((item) => item.str)
-        .join(' ');
-      text += pageText + '\n';
-    }
-
-    return text.trim();
+    const data = await pdf(buffer);
+    return data.text.trim();
   } catch (error) {
     console.error('Error extracting text from PDF:', error);
-    throw new Error('Falha ao ler o arquivo PDF. Verifique se o arquivo não está corrompido.');
+    throw new Error(`Falha ao ler o arquivo PDF: ${(error as Error).message}`);
   }
 }
 

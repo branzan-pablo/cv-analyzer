@@ -1,18 +1,34 @@
-import './pdf-polyfills';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const mammoth = require('mammoth');
-
-// @ts-ignore
-const pdf = require('pdf-parse');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const PDFParser = require('pdf2json');
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  try {
-    const data = await pdf(buffer);
-    return data.text.trim();
-  } catch (error) {
-    console.error('Error extracting text from PDF:', error);
-    throw new Error(`Falha ao ler o arquivo PDF: ${(error as Error).message}`);
-  }
+  return new Promise((resolve, reject) => {
+    const pdfParser = new PDFParser(null, 1); // 1 = text content only
+
+    pdfParser.on('pdfParser_dataError', (errData: { parserError: Error }) => {
+      console.error('PDF Parser Error:', errData.parserError);
+      reject(new Error('Falha ao processar o arquivo PDF.'));
+    });
+
+    pdfParser.on('pdfParser_dataReady', () => {
+      try {
+        // qetRawTextContent() returns the text content
+        const text = pdfParser.getRawTextContent().replace(/----------------Page \(\d+\) Break----------------/g, '\n');
+        resolve(text.trim());
+      } catch (error) {
+        console.error('Error parsing PDF text:', error);
+        reject(new Error('Erro ao extrair texto do PDF.'));
+      }
+    });
+
+    try {
+      pdfParser.parseBuffer(buffer);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 export async function extractTextFromDOCX(buffer: Buffer): Promise<string> {

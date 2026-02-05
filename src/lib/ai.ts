@@ -79,7 +79,7 @@ export async function analyzeCV(
   const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
   let prompt = ANALYSIS_PROMPT;
-  
+
   if (jobDescription && jobDescription.trim()) {
     prompt = prompt.replace(
       '{JOB_DESCRIPTION_INSTRUCTION}',
@@ -95,17 +95,18 @@ export async function analyzeCV(
     const result = await model.generateContent(fullPrompt);
     const response = await result.response;
     const text = response.text();
-    
+
     // Clean the response - remove markdown code blocks if present
     let cleanedText = text
       .replace(/```json\n?/g, '')
       .replace(/```\n?/g, '')
       .trim();
-    
+
     const analysisResult: AnalysisResult = JSON.parse(cleanedText);
     return analysisResult;
   } catch (error) {
     console.error('Error analyzing CV:', error);
-    throw new Error('Falha ao analisar o currículo. Por favor, tente novamente.');
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Falha na análise de IA: ${errorMessage}`);
   }
 }

@@ -76,7 +76,7 @@ export async function analyzeCV(
   cvText: string,
   jobDescription?: string
 ): Promise<AnalysisResult> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }, { apiVersion: 'v1' });
 
   let prompt = ANALYSIS_PROMPT;
 

@@ -3,7 +3,7 @@ import './pdf-polyfills';
 const mammoth = require('mammoth');
 
 // @ts-ignore
-import pdf from 'pdf-parse';
+const pdf = require('pdf-parse');
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
   try {

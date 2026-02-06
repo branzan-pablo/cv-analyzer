@@ -76,14 +76,21 @@ export async function analyzeCV(
   cvText: string,
   jobDescription?: string
 ): Promise<AnalysisResult> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }, { apiVersion: 'v1' });
+  // Alterado para o modelo estável de 2026
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-2.5-flash',
+    // Força o modelo a responder estritamente em JSON
+    generationConfig: {
+      responseMimeType: "application/json",
+    }
+  });
 
   let prompt = ANALYSIS_PROMPT;
 
   if (jobDescription && jobDescription.trim()) {
     prompt = prompt.replace(
       '{JOB_DESCRIPTION_INSTRUCTION}',
-      `ATENÇÃO: Compare o currículo com a seguinte descrição de vaga e ajuste a pontuação da dimensão "Adequação Geral" baseado na compatibilidade:\n\nDESCRIÇÃO DA VAGA:\n${jobDescription}`
+      `ATENÇÃO: Compare o currículo com a descrição da vaga e ajuste a pontuação:\n\nDESCRIÇÃO DA VAGA:\n${jobDescription}`
     );
   } else {
     prompt = prompt.replace('{JOB_DESCRIPTION_INSTRUCTION}', '');
@@ -96,17 +103,11 @@ export async function analyzeCV(
     const response = await result.response;
     const text = response.text();
 
-    // Clean the response - remove markdown code blocks if present
-    let cleanedText = text
-      .replace(/```json\n?/g, '')
-      .replace(/```\n?/g, '')
-      .trim();
+    // Com responseMimeType, o parse é direto e seguro
+    return JSON.parse(text) as AnalysisResult;
 
-    const analysisResult: AnalysisResult = JSON.parse(cleanedText);
-    return analysisResult;
   } catch (error) {
     console.error('Error analyzing CV:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Falha na análise de IA: ${errorMessage}`);
+    throw new Error(`Falha na análise de IA: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
   }
 }

@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       .or(`fingerprint.eq.${fingerprint},ip_address.eq.${ip}`)
       .single();
 
-    if (existingUsage && existingUsage.analysis_count >= 1) {
+    if (existingUsage && existingUsage.analysis_count >= 10) {
       return NextResponse.json(
         {
           error: 'Você já utilizou sua análise gratuita. Entre em contato para mais análises.',
@@ -78,17 +78,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
-// export async function GET() {
-//   const supabase = await createClient();
-
-//   const { data, error } = await supabase
-//     .from('usage')
-//     .insert({
-//       fingerprint: 'debug',
-//       ip_address: '127.0.0.1',
-//       analysis_count: 1,
-//     });
-
-//   return Response.json({ data, error });
-// }

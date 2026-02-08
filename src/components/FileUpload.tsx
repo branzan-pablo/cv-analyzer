@@ -39,11 +39,13 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
         <div
             {...getRootProps()}
             className={`
-        relative overflow-hidden rounded-2xl border-2 border-dashed p-8 text-center cursor-pointer
+        relative overflow-hidden rounded-2xl border-2 border-dashed p-10 text-center cursor-pointer
         transition-all duration-300 ease-out
         ${isDragActive
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 bg-gray-50 hover:border-gray-300 hover:bg-gray-100'
+                    ? 'border-purple-400 bg-purple-50 scale-[1.02]'
+                    : selectedFile 
+                        ? 'border-green-400 bg-green-50'
+                        : 'border-gray-300 bg-gray-50 hover:border-purple-300 hover:bg-purple-50/30'
                 }
         ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}
       `}
@@ -51,38 +53,34 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
             <input {...getInputProps()} />
 
             <div className="relative z-10">
-                {/* Icon */}
-                <div className={`mx-auto w-12 h-12 mb-4 rounded-full flex items-center justify-center transition-colors ${selectedFile ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-500'}`}>
-                    {selectedFile ? (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                    ) : (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                        </svg>
-                    )}
-                </div>
-
                 {selectedFile ? (
-                    <div className="space-y-1">
-                        <p className="text-sm font-medium text-gray-900">
+                    <div className="space-y-3">
+                        <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-green-400 to-emerald-400 flex items-center justify-center mb-4">
+                            <span className="text-3xl font-bold text-white">✓</span>
+                        </div>
+                        <p className="text-base font-bold text-gray-900">
                             {selectedFile.name}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-sm text-gray-600">
                             {(selectedFile.size / 1024).toFixed(1)} KB
                         </p>
-                        <p className="text-xs text-blue-500 mt-2">
-                            Clique para trocar
+                        <p className="text-sm text-purple-500 font-medium mt-3">
+                            Clique para trocar o arquivo
                         </p>
                     </div>
                 ) : (
-                    <div className="space-y-1">
-                        <p className="text-sm font-medium text-gray-900">
-                            {isDragActive ? 'Solte o arquivo aqui' : 'Arraste seu PDF, DOCX ou TXT'}
+                    <div className="space-y-3">
+                        <div className={`w-16 h-16 mx-auto rounded-2xl ${isDragActive ? 'bg-gradient-to-br from-purple-400 to-pink-400' : 'bg-gradient-to-br from-gray-300 to-gray-400'} flex items-center justify-center mb-4 transition-all duration-300`}>
+                            <span className="text-3xl font-bold text-white">↑</span>
+                        </div>
+                        <p className="text-base font-bold text-gray-900">
+                            {isDragActive ? 'Solte o arquivo aqui' : 'Arraste seu arquivo'}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-sm text-gray-500">
                             ou clique para selecionar
+                        </p>
+                        <p className="text-xs text-gray-400 mt-2">
+                            PDF, DOCX ou TXT • Até 5MB
                         </p>
                     </div>
                 )}
